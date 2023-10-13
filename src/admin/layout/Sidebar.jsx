@@ -1,0 +1,152 @@
+import { NavLink } from "react-router-dom";
+export const menu = [
+  {
+    id: 1,
+    title: "main",
+    listItems: [
+      {
+        id: 1,
+        title: "Trang chủ",
+        url: "/admin/",
+        icon: <ion-icon name="home-outline"></ion-icon>,
+      },
+      {
+        id: 2,
+        title: "Cá nhân",
+        url: "/admin/users/1",
+        icon: <ion-icon name="person-outline"></ion-icon>,
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "Danh sách",
+    listItems: [
+      {
+        id: 1,
+        title: "Người dùng",
+        url: "/admin/users",
+        icon: <ion-icon name="people-outline"></ion-icon>,
+      },
+      // {
+      //   id: 2,
+      //   title: "Sản phẩm",
+      //   url: "/admin/products",
+      //   icon: <ion-icon name="cart-outline"></ion-icon>,
+      // },
+      {
+        id: 3,
+        title: "Bình luận",
+        url: "/admin/orders",
+        icon: <ion-icon name="cube-outline"></ion-icon>,
+      },
+      {
+        id: 4,
+        title: "Bài viết",
+        url: "/admin/posts",
+        icon: <ion-icon name="book-outline"></ion-icon>,
+      },
+    ],
+  },
+  // {
+  //   id: 3,
+  //   title: "general",
+  //   listItems: [
+  //     {
+  //       id: 1,
+  //       title: "Elements",
+  //       url: "/admin/",
+  //       icon: <ion-icon name="grid-outline"></ion-icon>,
+  //     },
+  //     {
+  //       id: 2,
+  //       title: "Notes",
+  //       url: "/admin/",
+  //       icon: <ion-icon name="pencil-outline"></ion-icon>,
+  //     },
+  //     {
+  //       id: 3,
+  //       title: "Forms",
+  //       url: "/admin/",
+  //       icon: <ion-icon name="card-outline"></ion-icon>,
+  //     },
+  //     {
+  //       id: 4,
+  //       title: "Calendar",
+  //       url: "/admin/",
+  //       icon: <ion-icon name="calendar-outline"></ion-icon>,
+  //     },
+  //   ],
+  // },
+  {
+    id: 4,
+    title: "Maintenance",
+    listItems: [
+      {
+        id: 1,
+        title: "Cài đặt",
+        url: "/admin/",
+        icon: <ion-icon name="settings-outline"></ion-icon>,
+      },
+      {
+        id: 2,
+        title: "Sao lưu",
+        url: "/admin/",
+        icon: <ion-icon name="cloud-download-outline"></ion-icon>,
+      },
+      {
+        id: 3,
+        title: "Thống kê",
+        url: "/admin/",
+        icon: <ion-icon name="map-outline"></ion-icon>,
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: "Khác",
+    listItems: [
+      {
+        id: 2,
+        title: "Đăng xuất",
+        url: "/admin/",
+        icon: <ion-icon name="log-out-outline"></ion-icon>,
+      },
+    ],
+  },
+];
+const Sidebar = () => {
+  return (
+    <section className="p-1 md:p-2 menu ">
+      {menu.map((item) => (
+        <div
+          key={item.id}
+          className="flex flex-col gap-2.5 text-soft-color mb-5"
+        >
+          <span className="title max-md:hidden">{item.title}</span>
+
+          {item.listItems.map((listItems) => (
+            <NavLink
+              key={listItems.id}
+              to={listItems.url}
+              className={({ isActive }) =>
+                isActive
+                  ? "flex items-center max-md:justify-center gap-x-2 p-2 bg-soft-bg"
+                  : "flex items-center max-md:justify-center gap-x-2 p-2 hover:bg-soft-bg"
+              }
+            >
+              <div className="flex items-center justify-center text-xl">
+                {listItems.icon}
+              </div>
+              <span className="text-xs uppercase font-extralight max-md:hidden">
+                {listItems.title}
+              </span>
+            </NavLink>
+          ))}
+        </div>
+      ))}
+    </section>
+  );
+};
+
+export default Sidebar;
