@@ -1,10 +1,7 @@
-import DataTable from "../modules/chart/DataTable";
-import { products } from "../../data";
-import AddPost from "../modules/post/AddPost";
-import useClickOutSide from "../../hooks/useClickOutSide";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import DataTable from "../modules/chart/DataTable";
+import AddPost from "../modules/post/AddPost";
 
 const columns = [
   { field: "_id", headerName: "ID", width: 90 },
@@ -17,9 +14,9 @@ const columns = [
     },
   },
   {
-    field: "title",
+    field: "content",
     type: "string",
-    headerName: "Title",
+    headerName: "Nội dung",
     width: 250,
   },
   // {
@@ -52,22 +49,18 @@ const columns = [
       return formattedDate;
     },
   },
-  {
-    field: "inStock",
-    disableColumnMenu: true,
-    headerName: "In Stock",
-    width: 100,
-    type: "boolean",
-  },
+  // {
+  //   field: "inStock",
+  //   disableColumnMenu: true,
+  //   headerName: "In Stock",
+  //   width: 100,
+  //   type: "boolean",
+  // },
 ];
-const UserPage = () => {
-  const { nodeRef, setShow, show } = useClickOutSide();
-  const { posts: postApi } = useSelector((state) => state.posts);
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    setPosts(postApi);
-  }, [postApi]);
-  const dataWithId = posts.map((row, index) => ({
+const CommentPage = () => {
+  const { comments } = useSelector((state) => state.comments);
+
+  const dataWithId = comments.map((row, index) => ({
     id: index + 1, // Tạo id tùy chỉnh dựa trên index
     ...row,
   }));
@@ -88,4 +81,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default CommentPage;

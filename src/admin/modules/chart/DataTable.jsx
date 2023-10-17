@@ -1,32 +1,19 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-//   type Props = {
-//     columns: GridColDef[];
-//     rows: object[];
-//     slug: string;
-//   };
+import {
+  deletePostRequest,
+  deletePostSuccess,
+} from "../../../sagas/posts/postsSlice";
 
 const DataTable = (props) => {
-  // TEST THE API
-
-  // const queryClient = useQueryClient();
-  // // const mutation = useMutation({
-  // //   mutationFn: (id: number) => {
-  // //     return fetch(`http://localhost:8800/api/${props.slug}/${id}`, {
-  // //       method: "delete",
-  // //     });
-  // //   },
-  // //   onSuccess: ()=>{
-  // //     queryClient.invalidateQueries([`all${props.slug}`]);
-  // //   }
-  // // });
-
+  const { token } = useSelector((state) => state.admin);
+  const dispatch = useDispatch();
   const handleDelete = (id) => {
-    //delete the item
-    // mutation.mutate(id)
+    if (confirm("Bạn có muốn xóa bài viết có id: " + id) == true) {
+      dispatch(deletePostSuccess({ token, id }));
+    }
   };
 
   const actionColumn = {
@@ -41,7 +28,10 @@ const DataTable = (props) => {
           <Link to={`/admin/${props.slug}/${params.row.id}`}>
             <img src="/view.svg" alt="" />
           </Link>
-          <div className="delete" onClick={() => handleDelete(params.row.id)}>
+          <div
+            className="cursor-pointer delete"
+            onClick={() => handleDelete(params.row._id)}
+          >
             <img src="/delete.svg" alt="" />
           </div>
         </div>

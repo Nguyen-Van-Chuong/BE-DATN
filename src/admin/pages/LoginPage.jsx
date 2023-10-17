@@ -1,9 +1,12 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useController } from "react-hook-form";
-import * as Yup from "yup";
-import { useDispatch } from "react-redux";
 import { loginRequest } from "../../sagas/admin/adminSlice";
+import { useController } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
 const schemaValidate = Yup.object({
   user_name: Yup.string(),
   // .required("Vui lòng nhập tên đăng nhập!")
@@ -19,7 +22,9 @@ const schemaValidate = Yup.object({
   // ),
 });
 const LoginPage = () => {
+  const { token: adminToken, error } = useSelector((state) => state.admin);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     handleSubmit,
     register,
@@ -31,9 +36,18 @@ const LoginPage = () => {
     try {
       if (isValid) {
         dispatch(loginRequest(values));
+      } else {
+        toast.error(error.message);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
+  useEffect(() => {
+    if (adminToken) {
+      navigate("/admin");
+    }
+  }, [adminToken]);
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
@@ -78,13 +92,6 @@ const LoginPage = () => {
             </button>
           </div>
         </form>
-
-        <p className="mt-8 text-xs font-light text-center text-gray-700">
-          Bạn đã có tài khoản?
-          <a href="#" className="font-medium text-purple-600 hover:underline">
-            Đăng ký
-          </a>
-        </p>
       </div>
     </div>
   );

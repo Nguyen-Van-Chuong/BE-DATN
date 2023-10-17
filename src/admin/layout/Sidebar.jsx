@@ -1,4 +1,7 @@
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { logout } from "../../sagas/admin/adminSlice";
+
 export const menu = [
   {
     id: 1,
@@ -23,6 +26,18 @@ export const menu = [
     title: "Danh sách",
     listItems: [
       {
+        id: 5,
+        title: "Loại bài viết",
+        url: "/admin/categories",
+        icon: <ion-icon name="folder-outline"></ion-icon>,
+      },
+      {
+        id: 4,
+        title: "Bài viết",
+        url: "/admin/posts",
+        icon: <ion-icon name="book-outline"></ion-icon>,
+      },
+      {
         id: 1,
         title: "Người dùng",
         url: "/admin/users",
@@ -37,14 +52,8 @@ export const menu = [
       {
         id: 3,
         title: "Bình luận",
-        url: "/admin/orders",
+        url: "/admin/comments",
         icon: <ion-icon name="cube-outline"></ion-icon>,
-      },
-      {
-        id: 4,
-        title: "Bài viết",
-        url: "/admin/posts",
-        icon: <ion-icon name="book-outline"></ion-icon>,
       },
     ],
   },
@@ -110,12 +119,17 @@ export const menu = [
         id: 2,
         title: "Đăng xuất",
         url: "/admin/",
+        onClick: true,
         icon: <ion-icon name="log-out-outline"></ion-icon>,
       },
     ],
   },
 ];
 const Sidebar = () => {
+  const dispatch = useDispatch();
+  const logoutAdmin = () => {
+    dispatch(logout());
+  };
   return (
     <section className="p-1 md:p-2 menu ">
       {menu.map((item) => (
@@ -125,26 +139,47 @@ const Sidebar = () => {
         >
           <span className="title max-md:hidden">{item.title}</span>
 
-          {item.listItems.map((listItems) => (
-            <NavLink
-              key={listItems.id}
-              to={listItems.url}
-              className={({ isActive }) =>
-                isActive
-                  ? "flex items-center max-md:justify-center gap-x-2 p-2 bg-soft-bg"
-                  : "flex items-center max-md:justify-center gap-x-2 p-2 hover:bg-soft-bg"
-              }
-            >
-              <div className="flex items-center justify-center text-xl">
-                {listItems.icon}
-              </div>
-              <span className="text-xs uppercase font-extralight max-md:hidden">
-                {listItems.title}
-              </span>
-            </NavLink>
-          ))}
+          {item.listItems.map((listItems) =>
+            listItems.onClick ? (
+              <button
+                key={listItems.id}
+                className="flex items-center p-2 max-md:justify-center gap-x-2 hover:bg-soft-bg"
+                onClick={logoutAdmin}
+              >
+                <div className="flex items-center justify-center text-xl">
+                  {listItems.icon}
+                </div>
+                <span className="text-xs uppercase font-extralight max-md:hidden">
+                  {listItems.title}
+                </span>
+              </button>
+            ) : (
+              <NavLink
+                key={listItems.id}
+                to={listItems.url}
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex items-center max-md:justify-center gap-x-2 p-2 bg-soft-bg"
+                    : "flex items-center max-md:justify-center gap-x-2 p-2 hover:bg-soft-bg"
+                }
+              >
+                <div className="flex items-center justify-center text-xl">
+                  {listItems.icon}
+                </div>
+                <span className="text-xs uppercase font-extralight max-md:hidden">
+                  {listItems.title}
+                </span>
+              </NavLink>
+            )
+          )}
         </div>
       ))}
+      {/* <button onClick={logoutAdmin}>
+        <div className="flex items-center justify-center text-xl">
+          Đăng xuất
+        </div>
+        <span className="text-xs uppercase font-extralight max-md:hidden"></span>
+      </button> */}
     </section>
   );
 };

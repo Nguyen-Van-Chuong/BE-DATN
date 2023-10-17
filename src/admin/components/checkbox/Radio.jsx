@@ -19,24 +19,28 @@ const Radio = ({ checked, children, control, name, ...rest }) => {
       />
       <div className="flex items-center justify-center font-medium cursor-pointer gap-x-3">
         <div
-          className={`w-7 h-7 rounded-full ${
+          className={`w-7 h-7 rounded-full flex justify-center items-center ${
             checked ? "bg-primary" : "bg-gray-200"
           }`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-6 h-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
+          {checked ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          ) : (
+            ""
+          )}
         </div>
         <span>{children}</span>
       </div>

@@ -3,9 +3,10 @@ import DataTable from "../modules/chart/DataTable";
 import { userRows } from "../../data";
 import AddUser from "../modules/user/AddUser";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 70, disableColumnMenu: true },
+  { field: "_id", headerName: "ID", width: 70, disableColumnMenu: true },
   {
     field: "img",
     headerName: "Avatar",
@@ -13,19 +14,13 @@ const columns = [
     sortable: false,
     width: 100,
     renderCell: (params) => {
-      return <img src={params.row.img || "/noavatar.png"} alt="" />;
+      return <img src={params.row.image || "/noavatar.png"} alt="" />;
     },
   },
   {
-    field: "firstName",
+    field: "full_name",
     type: "string",
-    headerName: "First name",
-    width: 150,
-  },
-  {
-    field: "lastName",
-    type: "string",
-    headerName: "Last name",
+    headerName: "Tên đầy đủ",
     width: 150,
   },
   {
@@ -35,17 +30,22 @@ const columns = [
     width: 150,
   },
   {
-    field: "phone",
+    field: "address",
     type: "string",
-    headerName: "Phone",
+    headerName: "Địa chỉ",
     width: 150,
   },
   {
     field: "createdAt",
-    headerName: "Created At",
-    width: 100,
+    headerName: "Ngày tạo",
+    width: 150,
     type: "string",
     disableColumnMenu: true,
+    valueGetter: (params) => {
+      const originalDate = params.row.createdAt;
+      const formattedDate = new Date(originalDate).toLocaleDateString();
+      return formattedDate;
+    },
   },
   {
     field: "verified",
@@ -56,10 +56,15 @@ const columns = [
   },
 ];
 const UserPage = () => {
+  const { customers } = useSelector((state) => state.customers);
+  const dataWithId = customers.map((row, index) => ({
+    id: index + 1, // Tạo id tùy chỉnh dựa trên index
+    ...row,
+  }));
   return (
     <div className="users">
       <div className="flex items-center gap-5 mb-5 info">
-        <h1>Users</h1>
+        <h1>Người dùng</h1>
         <Link
           className="px-4 py-2 rounded-sm bg-slate-400"
           to={"/admin/users/add-user"}
@@ -67,7 +72,7 @@ const UserPage = () => {
           Thêm người dùng
         </Link>
       </div>
-      <DataTable slug="users" columns={columns} rows={userRows} />
+      <DataTable slug="users" columns={columns} rows={dataWithId} />
       {/* TEST THE API */}
 
       {/* {isLoading ? (

@@ -1,16 +1,13 @@
-import DataTable from "../modules/chart/DataTable";
-import { products } from "../../data";
-import AddPost from "../modules/post/AddPost";
-import useClickOutSide from "../../hooks/useClickOutSide";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import DataTable from "../modules/chart/DataTable";
+import AddPost from "../modules/post/AddPost";
 
 const columns = [
   { field: "_id", headerName: "ID", width: 90 },
   {
     field: "img",
-    headerName: "Image",
+    headerName: "Ảnh",
     width: 100,
     renderCell: (params) => {
       return <img src={params.row.image || "/noavatar.png"} alt="" />;
@@ -19,7 +16,7 @@ const columns = [
   {
     field: "title",
     type: "string",
-    headerName: "Title",
+    headerName: "Loại",
     width: 250,
   },
   // {
@@ -43,7 +40,7 @@ const columns = [
   // },
   {
     field: "createdAt",
-    headerName: "Created At",
+    headerName: "Ngày tạo",
     width: 200,
     type: "string",
     valueGetter: (params) => {
@@ -52,22 +49,21 @@ const columns = [
       return formattedDate;
     },
   },
-  {
-    field: "inStock",
-    disableColumnMenu: true,
-    headerName: "In Stock",
-    width: 100,
-    type: "boolean",
-  },
+  // {
+  //   field: "inStock",
+  //   disableColumnMenu: true,
+  //   headerName: "In Stock",
+  //   width: 100,
+  //   type: "boolean",
+  // },
 ];
-const UserPage = () => {
-  const { nodeRef, setShow, show } = useClickOutSide();
-  const { posts: postApi } = useSelector((state) => state.posts);
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    setPosts(postApi);
-  }, [postApi]);
-  const dataWithId = posts.map((row, index) => ({
+const CategoryPage = () => {
+  const { categories } = useSelector((state) => state.categories);
+  // const [, setPosts] = useState([]);
+  // useEffect(() => {
+  //   setPosts(postApi);
+  // }, [postApi]);
+  const dataWithId = categories.map((row, index) => ({
     id: index + 1, // Tạo id tùy chỉnh dựa trên index
     ...row,
   }));
@@ -88,4 +84,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default CategoryPage;

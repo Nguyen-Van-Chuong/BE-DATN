@@ -6,6 +6,7 @@ import {
 } from "../../utils/localstorage";
 const initialState = {
   token: getObjectFromLocalStorage("adminToken") || null,
+  infoAdmin: getObjectFromLocalStorage("infoAdmin") || null,
   isAuthenticated: !!localStorage.getItem("adminToken"),
   loading: false,
   error: null,
@@ -34,7 +35,7 @@ const adminSlice = createSlice({
     },
     logout: (state) => {
       localStorage.removeItem("adminToken");
-      removeObjectFromLocalStorage();
+      removeObjectFromLocalStorage("infoAdmin");
       return {
         ...state,
         isAuthenticated: false,
@@ -81,7 +82,7 @@ const adminSlice = createSlice({
       saveObjectToLocalStorage("infoAdmin", action.payload);
       return {
         ...state,
-        infoAuth: action.payload,
+        infoAdmin: action.payload,
       };
     },
   },

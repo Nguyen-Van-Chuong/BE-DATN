@@ -1,5 +1,7 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 const Navbar = () => {
+  const { infoAdmin } = useSelector((state) => state.admin);
   return (
     <section className="flex items-center justify-between w-full p-5 navbar">
       <div className="font-bold logo">
@@ -23,11 +25,13 @@ const Navbar = () => {
         </div>
         <Link className="flex items-center user gap-x-[10px]" to="#">
           <img
-            src="https://source.unsplash.com/random"
+            src={infoAdmin.image}
             className="flex-shrink-0 object-cover w-6 h-6 rounded-full"
             alt=""
           />
-          <span>Jane</span>
+          <p className="overflow-hidden w-[50px] whitespace-nowrap overflow-ellipsis">
+            {infoAdmin.user_name}
+          </p>
         </Link>
         <div className="flex items-center justify-center p-2 text-xl rounded-full cursor-pointer transi hover:bg-slate-300 ">
           <ion-icon name="apps-outline"></ion-icon>
