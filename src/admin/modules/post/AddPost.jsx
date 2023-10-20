@@ -12,14 +12,10 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Toggle } from "../../components/toggle";
 import { Radio } from "../../components/checkbox";
+import { useSelector } from "react-redux";
 
-const categories = [
-  { id: 1, name: "medium" },
-  { id: 2, name: "high" },
-  { id: 3, name: "low" },
-];
 const AddPost = (props) => {
-  const { slug, setShow, columns, nodeRef } = props;
+  const { categories } = useSelector((state) => state.categories);
   const [selectCategory, setSelectCategory] = useState("");
   const [content, setContent] = useState("");
 
@@ -79,20 +75,20 @@ const AddPost = (props) => {
           </Field>
           <Field>
             <Label>Loại bài viết</Label>
-            <Dropdown className="w-full">
+            <Dropdown className="w-full ">
               <Dropdown.Select
-                placeholder={`${selectCategory.name || "Select category"}`}
+                placeholder={`${selectCategory.title || "Select category"}`}
               >
                 select
               </Dropdown.Select>
-              <Dropdown.List>
+              <Dropdown.List >
                 {categories.length > 0 &&
                   categories.map((item) => (
                     <Dropdown.Option
-                      key={item.id}
+                      key={item._id}
                       onClick={() => handleClickOption(item)}
                     >
-                      {item.name}
+                      {item.title}
                     </Dropdown.Option>
                   ))}
               </Dropdown.List>

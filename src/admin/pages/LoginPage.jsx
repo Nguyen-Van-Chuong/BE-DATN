@@ -40,7 +40,7 @@ const LoginPage = () => {
         toast.error(error.message);
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
   useEffect(() => {
@@ -51,13 +51,13 @@ const LoginPage = () => {
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
-        <h1 className="text-3xl font-semibold text-center text-purple-700 underline">
+        <h1 className="text-3xl font-semibold text-center text-purple-700">
           Quản trị viên
         </h1>
         <form className="mt-6" onSubmit={handleSubmit(handleSignIn)}>
           <div className="mb-2">
             <label
-              for="user_name"
+              htmlFor="user_name"
               className="block text-sm font-semibold text-gray-800"
             >
               Tên đăng nhập
@@ -71,7 +71,7 @@ const LoginPage = () => {
           </div>
           <div className="mb-2">
             <label
-              for="password"
+              htmlFor="password"
               className="block text-sm font-semibold text-gray-800"
             >
               Mật khẩu

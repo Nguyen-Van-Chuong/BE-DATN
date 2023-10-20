@@ -8,10 +8,12 @@ import { InputPasswordToggle } from "../../components/input";
 import ImageUpload from "../../components/image/ImageUpload";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { Toggle } from "../../components/toggle";
-import { Radio } from "../../components/checkbox";
-import { useDispatch } from "react-redux";
-import { registerRequest } from "../../../sagas/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createUser,
+  customersRequest,
+} from "../../../sagas/customers/customersSlice";
+import { getObjectFromLocalStorage } from "../../../utils/localstorage";
 const schemaValidate = Yup.object({
   user_name: Yup.string(),
   // .required("Vui lòng nhập tên đăng nhập!")
@@ -26,6 +28,9 @@ const schemaValidate = Yup.object({
   // ),
 });
 const AddUser = (props) => {
+  const { token: admin, infoAdmin } = useSelector((state) => state.admin);
+  const tokenAdminLocal = getObjectFromLocalStorage("adminToken");
+
   const {
     control,
     watch,
@@ -57,7 +62,18 @@ const AddUser = (props) => {
   const addHandlerUser = (values) => {
     try {
       if (values) {
-        dispatch(registerRequest(values));
+        dispatch(createUser({ admin, values }));
+        reset({
+          user_name: "",
+          email: "",
+          password: "",
+          image: "",
+          full_name: "",
+          id_image: "",
+          admin: false,
+          role: "",
+          address: "",
+        });
       }
     } catch (error) {}
   };

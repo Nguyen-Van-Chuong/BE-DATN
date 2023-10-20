@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logout } from "../../sagas/admin/adminSlice";
+import { toast } from "react-toastify";
 
 export const menu = [
   {
@@ -129,6 +130,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const logoutAdmin = () => {
     dispatch(logout());
+    toast.error("Đăng xuất thành công!");
   };
   return (
     <section className="p-1 md:p-2 menu ">

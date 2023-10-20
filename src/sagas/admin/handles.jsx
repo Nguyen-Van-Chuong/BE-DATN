@@ -14,6 +14,7 @@ export function* authenticateAdmin({ payload }) {
     const response = yield call(loginAdmin, payload);
     if (response) {
       const { message, accessToken, ...info } = response.data;
+
       yield put(setNotifyGlobal(message));
       yield put(loginSuccess(accessToken));
       yield put(setInfoAdmin(info));

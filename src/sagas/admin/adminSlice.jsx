@@ -5,9 +5,9 @@ import {
   removeObjectFromLocalStorage,
 } from "../../utils/localstorage";
 const initialState = {
-  token: getObjectFromLocalStorage("adminToken") || null,
+  token: getObjectFromLocalStorage("authToken") || null,
   infoAdmin: getObjectFromLocalStorage("infoAdmin") || null,
-  isAuthenticated: !!localStorage.getItem("adminToken"),
+  isAuthenticated: !!localStorage.getItem("authToken"),
   loading: false,
   error: null,
 };
@@ -24,7 +24,7 @@ const adminSlice = createSlice({
       };
     },
     loginSuccess: (state, action) => {
-      saveObjectToLocalStorage("adminToken", action.payload);
+      saveObjectToLocalStorage("authToken", action.payload);
       return {
         ...state,
         token: action.payload,
@@ -34,7 +34,7 @@ const adminSlice = createSlice({
       };
     },
     logout: (state) => {
-      localStorage.removeItem("adminToken");
+      removeObjectFromLocalStorage("authToken");
       removeObjectFromLocalStorage("infoAdmin");
       return {
         ...state,
@@ -69,7 +69,7 @@ const adminSlice = createSlice({
       };
     },
     refreshAccessTokenSuccess: (state, action) => {
-      localStorage.setItem("adminToken", action.payload);
+      saveObjectToLocalStorage("authToken", action.payload);
       return {
         ...state,
         token: action.payload,
